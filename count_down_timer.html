@@ -3,18 +3,26 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-
+    <style>
+        #my_box {
+            padding: 20px 0 20px 40px;
+            background: lightgray;
+        }
+    </style>
 </head>
 <body>
-<p>
+<div id="my_box">
     <!--<span id="cd_value"></span>-->
     <label for="start">Enter a start time:</label>
     <input type="number" id="start">
-    <button onclick="timerID();">Start</button>
+    <p>
+       <button id="btn" onclick="timerID();">Start</button>
+    </p>
 
     <span id="cd_value"></span>
+    <div id="audio"></div>
 
-</p>
+</div>
 <script>
         ////////////////////////////////////////////////////////////////////
         //Create a web page that allows the user to set a count down timer value
@@ -39,6 +47,7 @@
         var startEl;
         var startString;
         var startTime;
+        var t;
 
         //function to decrement the counter
         function myCounter() {
@@ -48,10 +57,29 @@
             console.log(startTime);
             //show the counter value on the screen
             document.getElementById("cd_value").innerHTML = startTime;
+            var backEl = document.getElementById("my_box");
+
             //stop the countdown when it gets to 0.
-            if (startTime === 0){
-                clearInterval(t);
+            if (startTime % 3 == 0 && startTime % 5 == 0){
+                backEl.style.backgroundColor = "yellow";
+            } else if (startTime % 5 == 0 ){
+                backEl.style.backgroundColor = "blue";
+            } else if (startTime % 3 == 0) {
+                backEl.style.backgroundColor = "red";
+            } else if (startTime !== 0) {
+                backEl.style.backgroundColor = "white";
             }
+
+            if (startTime == 0) {
+                clearInterval(t);
+                backEl.style.backgroundColor = "green";
+                document.getElementById("audio").innerHTML = "<audio autoplay='autoplay'><source src='rooster.mp3'/></audio>";
+            }
+
+            //Do something here to make the screen flash
+            // Maybe call another function?
+
+
 
         }
 
