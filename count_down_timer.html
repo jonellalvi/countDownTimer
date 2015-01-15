@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        ////////////////////////////////////////////////////////////////////////////////////
+        //Create a web page that allows the user to set a count down timer value
+        // e.g. 1 minute that plays a sound and flashes the screen when it counts down to zero
+        // and indicates progress as the timer counts down.
+        // Bonus points for creativity.
+        // This is deliberately vague and open to interpretation.
+        // This is the way we get most assignments from business users.
+        ////////////////////////////////////////////////////////////////////////////////////
+        // Requirements:
+        // 1. User sets time
+        // 2. Timer counts down to zero
+        // 3. Progress of timer indicated by sound and flash of screen
+        // 4. Be Creative
+        // 5. It's on a web page
+        ////////////////////////////////////////////////////////////////////////////////////
+        // CODE:
+        //
+        // Just get a counter going:
+        var count = 99;
+        function myCounter() {
+            document.getElementById("cd_value").innerHTML = count;//console.log("Count:" + count);
+            count--;
+        }
+        var timerID = setInterval(myCounter, 1000);
+        //clearInterval(timerID)
+    </script>
+</head>
+<body>
+    <p>
+        <span id="cd_value"></span>
+    </p>
+</body>
+</html>

@@ -1,0 +1,29 @@
+//Create a web page that allows the user to set a count down timer value 
+e.g. 1 minute that plays a sound and flashes the screen when it counts down 
+to zero and indicates progress as the timer counts down.
+Bonus points for creativity. 
+This is deliberately vague and open to interpretation. 
+This is the way we get most assignments from business users.
+
+--------
+//investigate SetTimeout (uses millisecs)
+//investigate Set Interval (repeats)
+
+// Requirements:
+        // 1. User sets time
+        // 2. Timer counts down to zero
+        // 3. Progress of timer indicated by sound and flash of screen
+        // 4. Be Creative
+        // 5. It's on a web page
+---------------------------------
+
+Start by getting a timer to work
+-Completed
+---------------------------------
+
+Get user to set the start time
+-------------------------------
+
+
+
+
