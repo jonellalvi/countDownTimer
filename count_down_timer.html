@@ -3,37 +3,67 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <script>
-        ////////////////////////////////////////////////////////////////////////////////////
+
+</head>
+<body>
+<p>
+    <!--<span id="cd_value"></span>-->
+    <label for="start">Enter a start time:</label>
+    <input type="number" id="start">
+    <button onclick="timerID();">Start</button>
+
+    <span id="cd_value"></span>
+
+</p>
+<script>
+        ////////////////////////////////////////////////////////////////////
         //Create a web page that allows the user to set a count down timer value
         // e.g. 1 minute that plays a sound and flashes the screen when it counts down to zero
         // and indicates progress as the timer counts down.
         // Bonus points for creativity.
         // This is deliberately vague and open to interpretation.
         // This is the way we get most assignments from business users.
-        ////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
         // Requirements:
         // 1. User sets time
         // 2. Timer counts down to zero
         // 3. Progress of timer indicated by sound and flash of screen
         // 4. Be Creative
         // 5. It's on a web page
-        ////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////
         // CODE:
         //
         // Just get a counter going:
-        var count = 99;
+
+        // These are my global variables man!
+        var startEl;
+        var startString;
+        var startTime;
+
+        //function to decrement the counter
         function myCounter() {
-            document.getElementById("cd_value").innerHTML = count;//console.log("Count:" + count);
-            count--;
+            //decrement the counter
+            startTime--;
+            //show the counter value in the console
+            console.log(startTime);
+            //show the counter value on the screen
+            document.getElementById("cd_value").innerHTML = startTime;
         }
-        var timerID = setInterval(myCounter, 1000);
+
+        //function to call the counter every second
+        function timerID() {
+            //get the input element
+            startEl = document.getElementById("start");
+            //get the value the user typed in the input
+            startString = startEl.value;
+            //convert the string to an integer base 10
+            startTime = parseInt(startString, 10);
+            //call the count down function every second.
+            setInterval(myCounter, 1000);
+        }
+
         //clearInterval(timerID)
     </script>
-</head>
-<body>
-    <p>
-        <span id="cd_value"></span>
-    </p>
 </body>
+
 </html>
