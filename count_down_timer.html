@@ -48,6 +48,11 @@
             console.log(startTime);
             //show the counter value on the screen
             document.getElementById("cd_value").innerHTML = startTime;
+            //stop the countdown when it gets to 0.
+            if (startTime === 0){
+                clearInterval(t);
+            }
+
         }
 
         //function to call the counter every second
@@ -59,10 +64,9 @@
             //convert the string to an integer base 10
             startTime = parseInt(startString, 10);
             //call the count down function every second.
-            setInterval(myCounter, 1000);
+            t = setInterval(myCounter, 1000);
         }
 
-        //clearInterval(timerID)
     </script>
 </body>
 
