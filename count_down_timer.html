@@ -12,9 +12,16 @@
 </head>
 <body>
 <div id="my_box">
-    <!--<span id="cd_value"></span>-->
-    <label for="start">Enter a start time:</label>
-    <input type="number" id="start">
+
+    <p>
+        <label for="startMins">Enter minutes : seconds</label>
+    </p>
+    <p>
+        <input  id="startMins" size="4" maxlength="2">
+        <span id="colon">:</span>
+        <input  id="startSecs" size="4" maxlength="2">
+    </p>
+
     <p>
        <button id="btn" onclick="timerID();">Start</button>
     </p>
@@ -44,53 +51,68 @@
         // Just get a counter going:
 
         // These are my global variables man!
-        var startEl;
-        var startString;
+        var startElMins;
+        var startElSecs;
+        var startStringMins;
+        var startStringSecs;
+        var startTimeMins;
+        var startTimeSecs;
         var startTime;
         var t;
+        var totSecs;
 
         //function to decrement the counter
         function myCounter() {
             //decrement the counter
-            startTime--;
+            totSecs--;
             //show the counter value in the console
-            console.log(startTime);
+            console.log(totSecs);
             //show the counter value on the screen
-            document.getElementById("cd_value").innerHTML = startTime;
+            document.getElementById("cd_value").innerHTML = totSecs;
             var backEl = document.getElementById("my_box");
 
-            //stop the countdown when it gets to 0.
-            if (startTime % 3 == 0 && startTime % 5 == 0){
+            //change the background of the box under different conditions.
+            if (totSecs % 3 == 0 && totSecs % 5 == 0){
                 backEl.style.backgroundColor = "yellow";
-            } else if (startTime % 5 == 0 ){
+            } else if (totSecs % 5 == 0 ){
                 backEl.style.backgroundColor = "blue";
-            } else if (startTime % 3 == 0) {
+            } else if (totSecs % 3 == 0) {
                 backEl.style.backgroundColor = "red";
-            } else if (startTime !== 0) {
+            } else if (totSecs !== 0) {
                 backEl.style.backgroundColor = "white";
             }
-
-            if (startTime == 0) {
+            //stop the countdown when it gets to 0
+            if (totSecs == 0) {
                 clearInterval(t);
                 backEl.style.backgroundColor = "green";
                 document.getElementById("audio").innerHTML = "<audio autoplay='autoplay'><source src='rooster.mp3'/></audio>";
             }
+        }
 
-            //Do something here to make the screen flash
-            // Maybe call another function?
-
-
-
+        //function to calc the time in seconds
+        //gets the user input and converts to seconds
+        function timeInSecs(){
+            //get the input elements for minutes and seconds
+            startElMins = document.getElementById("startMins");
+            startElSecs = document.getElementById("startSecs");
+            //use the elements to get the mins and secs
+            startStringMins = startElMins.value;
+            startStringSecs = startElSecs.value;
+            console.log(startStringMins);
+            //convert the strings to an integers base 10
+            startTimeMins = parseInt(startStringMins, 10);
+            startTimeSecs = parseInt(startStringSecs, 10);
+            console.log(startTimeMins);
+            //convert into total seconds
+            totSecs = (startTimeMins * 60) + startTimeSecs;
+            console.log(totSecs);
+            return totSecs;
         }
 
         //function to call the counter every second
         function timerID() {
-            //get the input element
-            startEl = document.getElementById("start");
-            //get the value the user typed in the input
-            startString = startEl.value;
-            //convert the string to an integer base 10
-            startTime = parseInt(startString, 10);
+            //call timeInSecs() to get the time in seconds.
+            timeInSecs();
             //call the count down function every second.
             t = setInterval(myCounter, 1000);
         }
