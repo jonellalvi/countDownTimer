@@ -60,3 +60,12 @@ when you don't enter minutes, it returns NaN.
 ----------------------------
 
 Put the whole thing in a funciton and made it IIFE
+-Completed
+--------------------------------
+
+Add pause button and resume button
+-Completed
+-------------------------------
+
+Add reset button
+
