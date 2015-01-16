@@ -46,6 +46,9 @@
         <button id="pause" class="text btn" onclick="countDown.clock.pauseTimer()">Pause</button>
         <button id="resume" class="text btn" onclick="countDown.clock.resumeTimer()">Resume</button>
     </p>
+    <p>
+        <button id="reset" class="text btn" onclick="countDown.clock.resetTimer()">Reset</button>
+    </p>
 
     <span id="cdValue"></span>
 
@@ -134,7 +137,7 @@
             var totalSeconds = (startTimeMins * 60) + startTimeSecs;
             console.log(totalSeconds);
             return totalSeconds;
-        }
+        }5
 
         //function to call the counter every second
         function startTimer() {
@@ -155,10 +158,20 @@
             t = setInterval(myCounter, 1000);
         }
 
+        function resetTimer() {
+            console.log("reseting....");
+            clearInterval(t);
+            totSecs = 0;
+            document.getElementById("cdValue").innerHTML = totSecs;
+            document.getElementById("startMins").value = "";
+            document.getElementById("startSecs").value = "";
+        }
+
         return {
             startTimer: startTimer,
             pauseTimer: pauseTimer,
-            resumeTimer: resumeTimer
+            resumeTimer: resumeTimer,
+            resetTimer: resetTimer
         }
     }(); //IIFE - Immediately Invoked Function Expression
 
