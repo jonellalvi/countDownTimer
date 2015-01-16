@@ -73,3 +73,5 @@ Add reset button
 
 Error checking to make sure they entered something
 
+-encountered a bug when entering a digit
+it doesn't enable buttons properly -- investigate.

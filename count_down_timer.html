@@ -36,21 +36,21 @@
     </p>
 
     <p>
-        <input id="startMins" size="4" maxlength="2">
+        <input id="startMins" size="4" maxlength="2" onkeypress="countDown.clock.onMinsKeyPress()">
         <span id="colon">:</span>
-        <input id="startSecs" size="4" maxlength="2">
+        <input id="startSecs" size="4" maxlength="2" onkeypress="countDown.clock.onSecsKeyPress()">
     </p>
 
     <p>
-        <button id="start" class="text btn" onclick="countDown.clock.startTimer()">Start</button>
-        <button id="pause" class="text btn" onclick="countDown.clock.pauseTimer()">Pause</button>
-        <button id="resume" class="text btn" onclick="countDown.clock.resumeTimer()">Resume</button>
+        <button id="start" class="text btn" disabled onclick="countDown.clock.startTimer()">Start</button>
+        <button id="pause" class="text btn" disabled onclick="countDown.clock.pauseTimer()">Pause</button>
+        <button id="resume" class="text btn" disabled onclick="countDown.clock.resumeTimer()">Resume</button>
     </p>
     <p>
-        <button id="reset" class="text btn" onclick="countDown.clock.resetTimer()">Reset</button>
+        <button id="reset" class="text btn" disabled onclick="countDown.clock.resetTimer()">Reset</button>
     </p>
 
-    <span id="cdValue"></span>
+    <span id="timerDisplay"></span>
 
     <div id="audio"></div>
 
@@ -124,11 +124,17 @@
             //use the elements to get the mins and secs
             var startStringMins = startElMins.value;
             var startStringSecs = startElSecs.value;
-            //do some error checking to make sure its NaN
+
+            //make sure there's something in seconds:
+            if (startStringSecs.trim() == ""){
+                document.getElementById("timerDisplay").innerHTML = "Please enter a number";
+                resetTimer();
+            }
+            //do some error checking in case no minutes
             if (startStringMins.trim() == "") {
                 startStringMins = 0;
             }
-            console.log(startStringMins);
+
             //convert the strings to an integers base 10
             var startTimeMins = parseInt(startStringMins, 10);
             var startTimeSecs = parseInt(startStringSecs, 10);
@@ -137,11 +143,11 @@
             var totalSeconds = (startTimeMins * 60) + startTimeSecs;
             console.log(totalSeconds);
             return totalSeconds;
-        }5
+        }
 
         //function to call the counter every second
         function startTimer() {
-            console.log("starting...")
+            console.log("starting...");
             //call timeInSecs() to get the time in seconds.
             totSecs = timeInSecs();
             //call the count down function every second.
@@ -149,12 +155,12 @@
         }
 
         function pauseTimer() {
-            console.log("paused....")
+            console.log("paused....");
             clearInterval(t);
         }
 
         function resumeTimer() {
-            console.log("resuming...")
+            console.log("resuming...");
             t = setInterval(myCounter, 1000);
         }
 
@@ -167,11 +173,41 @@
             document.getElementById("startSecs").value = "";
         }
 
+        function onMinsKeyPress(){
+            console.log('onmins');
+            // activate buttons
+
+            var buttonState = document.getElementById("startMins").value.length > 0;
+            //loop through this and set disabled state to on
+            var btns = document.getElementsByClassName("btn");
+            for(var i=0; i < btns.length; i++){
+                btns.item(i).disabled = !buttonState;
+            }
+        }
+
+        function onSecsKeyPress(){
+            console.log("onsecs");
+            //activate buttons
+            // buttonState NOT GETTING SET PROPERLY
+            var buttonState = (document.getElementById("startSecs").value.trim().length) > 0; //boolean
+            temp = document.getElementById("startSecs").value.trim()
+            console.log(buttonState, temp);
+            console.log(document.getElementById("startSecs").value.length);
+            //loop through this and set disabled state to on
+            var btns = document.getElementsByClassName("btn");
+            for(var i=0; i < btns.length; i++) {
+                btns.item(i).disabled = !buttonState;
+            }
+        }
+
         return {
             startTimer: startTimer,
             pauseTimer: pauseTimer,
             resumeTimer: resumeTimer,
-            resetTimer: resetTimer
+            resetTimer: resetTimer,
+            onMinsKeyPress: onMinsKeyPress,
+            onSecsKeyPress: onSecsKeyPress
+
         }
     }(); //IIFE - Immediately Invoked Function Expression
 
