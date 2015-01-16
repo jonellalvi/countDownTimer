@@ -47,3 +47,16 @@ Fun stuff/improvements:
 Change so it takes minutes and seconds.
 -Completed
 
+------------------------------------
+Made the interface prettier
+-work in progress!
+----------------------------
+
+BUG:
+when you don't enter minutes, it returns NaN.
+- the problem was when minutes were an empty string
+- added a test to make sure it wasn't empty
+- fixed
+----------------------------
+
+Put the whole thing in a funciton and made it IIFE
