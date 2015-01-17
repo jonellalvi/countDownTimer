@@ -36,9 +36,9 @@
     </p>
 
     <p>
-        <input id="startMins" size="4" maxlength="2" onkeypress="countDown.clock.onMinsKeyPress()">
+        <input id="startMins"  size="4" maxlength="2" onchange="countDown.clock.onMinsKeyPress()">
         <span id="colon">:</span>
-        <input id="startSecs" size="4" maxlength="2" onkeypress="countDown.clock.onSecsKeyPress()">
+        <input id="startSecs"  size="4" maxlength="2" onkeyup="countDown.clock.onSecsKeyPress()">
     </p>
 
     <p>
@@ -94,7 +94,7 @@
             //show the counter value in the console
             console.log(totSecs);
             //show the counter value on the screen
-            document.getElementById("cdValue").innerHTML = totSecs;
+            document.getElementById("timerDisplay").innerHTML = totSecs;
 
             var backEl = document.getElementById("my_box");
             //change the background of the box under different conditions.
@@ -168,7 +168,7 @@
             console.log("reseting....");
             clearInterval(t);
             totSecs = 0;
-            document.getElementById("cdValue").innerHTML = totSecs;
+            document.getElementById("timerDisplay").innerHTML = totSecs;
             document.getElementById("startMins").value = "";
             document.getElementById("startSecs").value = "";
         }
@@ -190,9 +190,9 @@
             //activate buttons
             // buttonState NOT GETTING SET PROPERLY
             var buttonState = (document.getElementById("startSecs").value.trim().length) > 0; //boolean
-            temp = document.getElementById("startSecs").value.trim()
-            console.log(buttonState, temp);
-            console.log(document.getElementById("startSecs").value.length);
+            //trying some stuff here:
+            var secondsInput = document.getElementById("startSecs");
+            console.log(secondsInput.textContent);
             //loop through this and set disabled state to on
             var btns = document.getElementsByClassName("btn");
             for(var i=0; i < btns.length; i++) {

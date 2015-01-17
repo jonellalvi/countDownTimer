@@ -75,3 +75,15 @@ Error checking to make sure they entered something
 
 -encountered a bug when entering a digit
 it doesn't enable buttons properly -- investigate.
+----------------------------------
+
+onKeyPress not working; tried onchange but that only works 
+when focus is removed--I think that's the trouble.
+-changed to using onkeyup and that seems to have resolved it.
+
+--------------------------------
+
+-work on the display bit
+-and cleaning up the code
+------------------
+
