@@ -25,6 +25,7 @@
             text-align: center;
             color: darkblue;
         }
+
     </style>
 </head>
 <body>
@@ -32,25 +33,28 @@
     <h1 class="text" id="title1">Count Down Timer</h1>
 
     <p>
-        <label class="text" for="startMins"> minutes : seconds</label>
+        <label class="text" for="minutes"> minutes : seconds</label>
     </p>
 
     <p>
-        <input id="startMins"  size="4" maxlength="2" onchange="countDown.clock.onMinsKeyPress()">
+        <input id="minutes"  size="4" maxlength="2" >
         <span id="colon">:</span>
-        <input id="startSecs"  size="4" maxlength="2" onkeyup="countDown.clock.onSecsKeyPress()">
+        <input id="seconds"  size="4" maxlength="2" >
     </p>
 
     <p>
-        <button id="start" class="text btn" disabled onclick="countDown.clock.startTimer()">Start</button>
-        <button id="pause" class="text btn" disabled onclick="countDown.clock.pauseTimer()">Pause</button>
-        <button id="resume" class="text btn" disabled onclick="countDown.clock.resumeTimer()">Resume</button>
+        <button id="start" class="text btn" >Start</button>
+        <button id="pause" class="text btn" >Pause</button>
+        <button id="resume" class="text btn">Resume</button>
     </p>
     <p>
-        <button id="reset" class="text btn" disabled onclick="countDown.clock.resetTimer()">Reset</button>
+        <button id="reset" class="text btn">Reset</button>
     </p>
-
-    <span id="timerDisplay"></span>
+    <div id="timerDisplay">
+        <span id="minutesDisplay"></span>
+        <span id="colonDisplay">:</span>
+        <span id="secondsDisplay"></span>
+    </div>
 
     <div id="audio"></div>
 
@@ -72,144 +76,60 @@
     // 5. It's on a web page
     ////////////////////////////////////////////////////////////////////
 
-    // Trying something else
-
-//        var startElMins;
-//        var startElSecs;
-//        var startStringMins;
-//        var startStringSecs;
-//        var startTimeMins;
-//        var startTimeSecs;
 
     var countDown = {};
     countDown.clock = function() {
-        var t;
-        var totSecs;
+        var COUNTDOWN_INTERVAL = 1000;
+
+        var secondsInput = document.getElementById("seconds");
+        var minutesInput = document.getElementById("minutes");
+
+        var displayMinutesElement = document.getElementById("minutesDisplay");
+        var displaySecondsElement = document.getElementById("secondsDisplay");
+
+        var startButton = document.getElementById("start");
+        var pauseButton = document.getElementById("pause");
+        var resumeButton = document.getElementById("resume");
+        var resetButton = document.getElementById("reset");
+
+        var secondsCounter = 0;
+        var minutesCounter = 0;
+        var timer = 0;
 
 
-        //function to decrement the counter
-        function myCounter() {
-            //decrement the counter
-            totSecs--;
-            //show the counter value in the console
-            console.log(totSecs);
-            //show the counter value on the screen
-            document.getElementById("timerDisplay").innerHTML = totSecs;
-
-            var backEl = document.getElementById("my_box");
-            //change the background of the box under different conditions.
-            if (totSecs % 3 == 0 && totSecs % 5 == 0) {
-                backEl.style.backgroundColor = "yellow";
-            } else if (totSecs % 5 == 0) {
-                backEl.style.backgroundColor = "blue";
-            } else if (totSecs % 3 == 0) {
-                backEl.style.backgroundColor = "red";
-            } else if (totSecs !== 0) {
-                backEl.style.backgroundColor = "white";
-            }
-            //stop the countdown when it gets to 0
-            if (totSecs == 0) {
-                clearInterval(t);
-                backEl.style.backgroundColor = "green";
-                document.getElementById("audio").innerHTML = "<audio autoplay='autoplay'><source src='rooster.mp3'/></audio>";
-            }
-        }
-
-        //function to calc the time in seconds
-        //gets the user input and converts to seconds
-        function timeInSecs() {
-            //get the input elements for minutes and seconds
-            var startElMins = document.getElementById("startMins");
-            var startElSecs = document.getElementById("startSecs");
-            //use the elements to get the mins and secs
-            var startStringMins = startElMins.value;
-            var startStringSecs = startElSecs.value;
-
-            //make sure there's something in seconds:
-            if (startStringSecs.trim() == ""){
-                document.getElementById("timerDisplay").innerHTML = "Please enter a number";
-                resetTimer();
-            }
-            //do some error checking in case no minutes
-            if (startStringMins.trim() == "") {
-                startStringMins = 0;
-            }
-
-            //convert the strings to an integers base 10
-            var startTimeMins = parseInt(startStringMins, 10);
-            var startTimeSecs = parseInt(startStringSecs, 10);
-            console.log(startTimeMins);
-            //convert into total seconds
-            var totalSeconds = (startTimeMins * 60) + startTimeSecs;
-            console.log(totalSeconds);
-            return totalSeconds;
-        }
-
-        //function to call the counter every second
         function startTimer() {
-            console.log("starting...");
-            //call timeInSecs() to get the time in seconds.
-            totSecs = timeInSecs();
-            //call the count down function every second.
-            t = setInterval(myCounter, 1000);
+            console.log("You clicked start...");
+
         }
 
         function pauseTimer() {
-            console.log("paused....");
-            clearInterval(t);
+
         }
 
         function resumeTimer() {
-            console.log("resuming...");
-            t = setInterval(myCounter, 1000);
+
         }
 
         function resetTimer() {
-            console.log("reseting....");
-            clearInterval(t);
-            totSecs = 0;
-            document.getElementById("timerDisplay").innerHTML = totSecs;
-            document.getElementById("startMins").value = "";
-            document.getElementById("startSecs").value = "";
-        }
-
-        function onMinsKeyPress(){
-            console.log('onmins');
-            // activate buttons
-
-            var buttonState = document.getElementById("startMins").value.length > 0;
-            //loop through this and set disabled state to on
-            var btns = document.getElementsByClassName("btn");
-            for(var i=0; i < btns.length; i++){
-                btns.item(i).disabled = !buttonState;
-            }
-        }
-
-        function onSecsKeyPress(){
-            console.log("onsecs");
-            //activate buttons
-            // buttonState NOT GETTING SET PROPERLY
-            var buttonState = (document.getElementById("startSecs").value.trim().length) > 0; //boolean
-            //trying some stuff here:
-            var secondsInput = document.getElementById("startSecs");
-            console.log(secondsInput.textContent);
-            //loop through this and set disabled state to on
-            var btns = document.getElementsByClassName("btn");
-            for(var i=0; i < btns.length; i++) {
-                btns.item(i).disabled = !buttonState;
-            }
-        }
-
-        return {
-            startTimer: startTimer,
-            pauseTimer: pauseTimer,
-            resumeTimer: resumeTimer,
-            resetTimer: resetTimer,
-            onMinsKeyPress: onMinsKeyPress,
-            onSecsKeyPress: onSecsKeyPress
 
         }
-    }(); //IIFE - Immediately Invoked Function Expression
+
+        function countdown() {
+            //counts down the time
+        }
+
+        function displayTime(){
+            //displays the countdown
+        }
+
+        function alarmZero() {
+            //displays the alarm when hit 00:00
+        }
+
+        function displayZero() {
+            //stuff that happens at 00:00
+        }
+    }();
 
 
 </script>
