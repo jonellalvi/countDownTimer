@@ -54,6 +54,9 @@
         <span id="minutesDisplay"></span>
         <span id="colonDisplay">:</span>
         <span id="secondsDisplay"></span>
+        <p>
+            <span id="messages"></span>
+        </p>
     </div>
 
     <div id="audio"></div>
@@ -86,19 +89,90 @@
 
         var displayMinutesElement = document.getElementById("minutesDisplay");
         var displaySecondsElement = document.getElementById("secondsDisplay");
+        var displayMessages = document.getElementById("messages");
 
         var startButton = document.getElementById("start");
         var pauseButton = document.getElementById("pause");
         var resumeButton = document.getElementById("resume");
         var resetButton = document.getElementById("reset");
 
-        var secondsCounter = 0;
-        var minutesCounter = 0;
+        var secs = 0;
+        var mins = 0;
         var timer = 0;
 
 
         function startTimer() {
             console.log("You clicked start...");
+            //get the seconds and minutes:
+            secs = parseInt(secondsInput.value);
+            mins = parseInt(minutesInput.value);
+            validateInput();
+            console.log(mins, secs);
+            //call the clock
+            timer = setInterval(tickTock, COUNTDOWN_INTERVAL);
+        }
+
+        startButton.addEventListener("click", startTimer);
+
+        function tickTock() {
+            secs--
+            mins--
+            displayTime();
+            //check for 0.
+
+            }
+        function displayTime(){
+            //displays the countdown
+            displayMinutesElement.innerHTML = mins;
+            displaySecondsElement.innerHTML = secs;
+        }
+
+        function validateInput() {
+            //check if there's any input.
+            console.log("here's the times: ", mins, secs);
+            console.log(isNaN(mins), isNaN(secs));
+            //if no input:
+            if (isNaN(mins) && (isNaN(secs))) {
+                console.log("No mins and secs");
+                displayMessages.innerHTML = "Please enter minutes and/or seconds";
+            }
+            //if seconds and minutes
+            if (!isNaN(mins) && !isNaN(secs)) {
+                console.log("secs and mins");
+                //check if mins is greater than 60
+                if (mins > 60) {
+                    displayMessages.innerHTML = "This timer can't handle hours (yet)";
+                }
+                // check if secs is greater than 60
+                if (secs > 60) {
+                    //figure out minutes
+                    mins = mins + (secs / 60);
+                    // check for extra secs
+                    if (secs % 60 !=0) {
+                        secs = (secs % 60);
+                    }
+                }
+            }
+            //if minutes but no seconds
+            if (!isNaN(mins) && isNaN(secs)) {
+                console.log("mins but no secs");
+                //mins is okay but set secs to 0
+                secs = 0;
+                console.log(mins, secs);
+            }
+            //if seconds but no minutes
+            if (isNaN(mins) && !isNaN(secs)) {
+                console.log("secs but no mins");
+                //check if secs is greater than 60
+                if (secs > 60) {
+                    //figure out minutes
+                    mins = Math.floor(secs / 60);
+                    //check for remainder for secs
+                    if (secs % 60 != 0){
+                        secs = (secs % 60);
+                    }
+                }
+            }
 
         }
 
@@ -118,9 +192,7 @@
             //counts down the time
         }
 
-        function displayTime(){
-            //displays the countdown
-        }
+
 
         function alarmZero() {
             //displays the alarm when hit 00:00
