@@ -112,7 +112,9 @@
             //get the seconds and minutes:
             secs = parseInt(secondsInput.value);
             mins = parseInt(minutesInput.value);
-            validateInput();
+            if (!validateInput()) {
+                return;
+            }
             console.log(mins, secs);
             convertToSeconds();
             //call the clock
@@ -129,8 +131,8 @@
             totalSeconds--;
             displayTime();
             if (totalSeconds == 0){
-                alarmZero();
                 displayZero();
+                alarmZero();
                 resetTimer();
             }
         }
@@ -142,7 +144,6 @@
             //add a leading 0
             if (m < 10) m = "0" + m;
             if (s < 10) s = "0" + s;
-
             timerDisplay.innerHTML = m + ":" + s;
         }
 
@@ -150,10 +151,12 @@
             //check if there's any input.
             console.log("here's the times: ", mins, secs);
             console.log(isNaN(mins), isNaN(secs));
+            displayMessages.innerHTML = "";
             //if no input:
             if (isNaN(mins) && (isNaN(secs))) {
                 console.log("No mins and secs");
                 displayMessages.innerHTML = "Please enter minutes and/or seconds";
+                return false;
             }
             //if seconds and minutes
             if (!isNaN(mins) && !isNaN(secs)) {
@@ -193,6 +196,8 @@
                     }
                 }
             }
+            //everything validated!
+            return true;
 
         }
 
@@ -221,6 +226,7 @@
             displayMessages.innerHTML = "";
             secondsInput.value = "";
             minutesInput.value = "";
+            bigBox.style.backgroundColor = "lightblue";
         }
 
         resetButton.addEventListener("click", resetTimer);
@@ -234,6 +240,7 @@
         function displayZero() {
             //stuff that happens at 00:00
             bigBox.className = bigBox.className + "done";
+            bigBox.style.backgroundColor = "red";
         }
     }();
 
