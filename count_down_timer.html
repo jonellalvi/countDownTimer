@@ -8,7 +8,7 @@
             padding: 40px 0;
         }
 
-        #my_box {
+        #myBox {
             padding: 20px 40px 20px 40px;
             width: 40%;
             margin: 0 auto;
@@ -26,10 +26,14 @@
             color: darkblue;
         }
 
+        .done {
+            background: red;
+        }
+
     </style>
 </head>
 <body>
-<div id="my_box">
+<div id="myBox">
     <h1 class="text" id="title1">Count Down Timer</h1>
 
     <p>
@@ -51,9 +55,7 @@
         <button id="reset" class="text btn">Reset</button>
     </p>
     <div id="timerDisplay">
-        <span id="minutesDisplay"></span>
-        <span id="colonDisplay">:</span>
-        <span id="secondsDisplay"></span>
+        <span id="display"></span>
         <p>
             <span id="messages"></span>
         </p>
@@ -87,8 +89,8 @@
         var secondsInput = document.getElementById("seconds");
         var minutesInput = document.getElementById("minutes");
 
-        var displayMinutesElement = document.getElementById("minutesDisplay");
-        var displaySecondsElement = document.getElementById("secondsDisplay");
+
+        var timerDisplay = document.getElementById("display");
         var displayMessages = document.getElementById("messages");
 
         var startButton = document.getElementById("start");
@@ -96,9 +98,13 @@
         var resumeButton = document.getElementById("resume");
         var resetButton = document.getElementById("reset");
 
+        var bigBox = document.getElementById("myBox");
+        var displayBox = document.getElementById("timerDisplay")
+
         var secs = 0;
         var mins = 0;
         var timer = 0;
+        var totalSeconds = 0;
 
 
         function startTimer() {
@@ -108,23 +114,36 @@
             mins = parseInt(minutesInput.value);
             validateInput();
             console.log(mins, secs);
+            convertToSeconds();
             //call the clock
             timer = setInterval(tickTock, COUNTDOWN_INTERVAL);
         }
 
         startButton.addEventListener("click", startTimer);
 
-        function tickTock() {
-            secs--
-            mins--
-            displayTime();
-            //check for 0.
+        function convertToSeconds() {
+            totalSeconds = mins * 60 + secs;
+        }
 
+        function tickTock() {
+            totalSeconds--;
+            displayTime();
+            if (totalSeconds == 0){
+                alarmZero();
+                displayZero();
+                resetTimer();
             }
+        }
+
         function displayTime(){
-            //displays the countdown
-            displayMinutesElement.innerHTML = mins;
-            displaySecondsElement.innerHTML = secs;
+            //build display string
+            var m = Math.floor(totalSeconds / 60);
+            var s = totalSeconds % 60;
+            //add a leading 0
+            if (m < 10) m = "0" + m;
+            if (s < 10) s = "0" + s;
+
+            timerDisplay.innerHTML = m + ":" + s;
         }
 
         function validateInput() {
@@ -164,6 +183,7 @@
             if (isNaN(mins) && !isNaN(secs)) {
                 console.log("secs but no mins");
                 //check if secs is greater than 60
+                mins = 0;
                 if (secs > 60) {
                     //figure out minutes
                     mins = Math.floor(secs / 60);
@@ -177,29 +197,43 @@
         }
 
         function pauseTimer() {
-
+            console.log("paused....");
+            displayMessages.innerHTML = "Paused...";
+            clearInterval(timer);
         }
+
+        pauseButton.addEventListener("click", pauseTimer);
 
         function resumeTimer() {
-
+            console.log("resuming...");
+            displayMessages.innerHTML = "";
+            timer = setInterval(tickTock, 1000);
         }
+
+        resumeButton.addEventListener("click", resumeTimer);
 
         function resetTimer() {
-
+            console.log("reseting....");
+            clearInterval(timer);
+            secs = 0;
+            mins = 0;
+            timerDisplay.innerHTML = "";
+            displayMessages.innerHTML = "";
+            secondsInput.value = "";
+            minutesInput.value = "";
         }
 
-        function countdown() {
-            //counts down the time
-        }
-
-
+        resetButton.addEventListener("click", resetTimer);
 
         function alarmZero() {
             //displays the alarm when hit 00:00
+            displayMessages.innerHTML = "All Done";
+            alert("Beep!")
         }
 
         function displayZero() {
             //stuff that happens at 00:00
+            bigBox.className = bigBox.className + "done";
         }
     }();
 
