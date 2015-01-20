@@ -1,4 +1,4 @@
-# count_down_timer
+# countDownTimer
 Code Challenge from PDX Code Guild Bootcamp
 
 This is an in class homework assignment. Heres the challenge as stated by the instructor:
